@@ -30,9 +30,9 @@
 ```
 using System;
 using System.Collections.Generic;
-Using System.Linq;
-Using System.Text;
-Using System.Threading.Tasks;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -45,9 +45,4 @@ namespace ConsoleApp1
   }
 
 }
-```
-
-
-
-
 ```
