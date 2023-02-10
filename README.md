@@ -26,3 +26,28 @@
 | 6pm | LYAII          | LYAII          | LYAII          | LYAII          | LYAII     |
 
 
+* Codigo Fuente:
+```
+using System;
+using System.Collections.Generic;
+Using System.Linq;
+Using System.Text;
+Using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+  class Program 
+  {
+     static void Main(string[] args)
+        {
+          Console.WriteLine("Hola Mundo!!")
+        }
+  }
+
+}
+```
+
+
+
+
+```
