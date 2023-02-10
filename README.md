@@ -17,13 +17,14 @@
 # Horario de clases
 
 
-| Hrs | Lunes          | Martes         | Miercoles      | Jueves         | Viernes   |
-|-----|----------------|----------------|----------------|----------------|-----------|
-| 2pm | Redes          | Redes          | Redes          | Redes          | Redes     |
-| 3pm | P. Logica      | P. Logica      | P. Logica      | P. Logica      | P. Logica |
-| 4pm | Gestion        | Gestion        | Gestion        | Gestion        | Gestion   |
-| 5pm | S.Programables | S.Programables | S.Programables | S.Programables |           |
-| 6pm | LYAII          | LYAII          | LYAII          | LYAII          | LYAII     |
+| Hrs | Lunes          | Martes         | Miercoles      | Jueves         | Viernes       |
+|-----|----------------|----------------|----------------|----------------|---------------|
+| 2pm | Redes          | Redes          | Redes          | Redes          | Redes         |
+| 3pm | P. Logica      | P. Logica      | P. Logica      | P. Logica      | P. Logica     |
+| 4pm | Gestion        | Gestion        | Gestion        | Gestion        | Gestion       |
+| 5pm | S.Programables | S.Programables | S.Programables | S.Programables |               |
+| 6pm | LYAII          | LYAII          | LYAII          | LYAII          | LYAII         |
+| 7pm | F.Profesional  | F.Profesional  | F.Profesional  | F.Profesional  | F.Profesional |
 
 
 * Codigo Fuente:
