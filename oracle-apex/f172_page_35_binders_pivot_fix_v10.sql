@@ -1,4 +1,6 @@
--- v9: native Interactive Grid custom DML; use the submitted primary key DATE_KEY.
+-- v10: store native IG process attributes as JSON CLOB (APEX 26.1).
+-- Avoid the legacy p_attribute_04 buffer for generated PL/SQL.
+-- Native Interactive Grid custom DML uses the submitted primary key DATE_KEY.
 -- Explicitly submit the hidden ROW_VERSION for the custom concurrency check.
 -- App 172 / Page 35. Binders: dates in rows, work centers in columns.
 -- Replaces page 35. Back up the current page before running.
@@ -12,10 +14,11 @@ whenever sqlerror exit sql.sqlcode rollback
 declare
     type t_wc is table of TJP_ENG04_MASTER%rowtype;
     l_wc t_wc;
-    l_source varchar2(32767);
-    l_inner varchar2(32767);
+    l_source clob;
+    l_inner clob;
     l_hash varchar2(32767) := '''v1''';
-    l_dml varchar2(32767);
+    l_dml clob;
+    l_process_attributes clob;
     l_col varchar2(30);
     l_id number;
     l_duplicates number;
@@ -101,6 +104,18 @@ where decode(p.CANTIDAD,s.CANTIDAD,0,1)=1
 when not matched then insert (DATE_KEY,LISTID,CANTIDAD) values (s.DATE_KEY,s.LISTID,s.CANTIDAD) where s.CANTIDAD is not null;';
     end loop;
     l_dml := l_dml||chr(10)||'select ROW_VERSION into :ROW_VERSION from ('||l_source||') where DATE_KEY=:DATE_KEY; end;';
+    -- APEX 26.1 native plug-in attributes are named JSON properties.
+    -- JSON_OBJECT escapes the generated code and returns CLOB end to end;
+    -- casting the legacy p_attribute_04 value to CLOB would not fix its buffer.
+    select json_object(
+               'target_type' value 'PLSQL_CODE',
+               'plsql_code' value l_dml,
+               'prevent_lost_updates' value 'N',
+               'lock_row' value 'N',
+               'return_primary_keys_after_insert' value 'Y'
+               returning clob)
+      into l_process_attributes
+      from dual;
     -- Validate generated SQL and row process before replacing the page.
     l_cursor := dbms_sql.open_cursor;
     begin
@@ -190,11 +205,7 @@ when not matched then insert (DATE_KEY,LISTID,CANTIDAD) values (s.DATE_KEY,s.LIS
         p_region_id=>wwv_flow_imp.id(30378326274758815),
         p_process_type=>'NATIVE_IG_DML',
         p_process_name=>'Binders - Save Quantities',
-        p_attribute_01=>'PLSQL_CODE',
-        p_attribute_04=>l_dml,
-        p_attribute_05=>'N',
-        p_attribute_06=>'N',
-        p_attribute_08=>'Y',
+        p_attributes=>l_process_attributes,
         p_error_display_location=>'INLINE_IN_NOTIFICATION',
         p_internal_uid=>30379658510758828);
     wwv_flow_imp.import_end(p_auto_install_sup_obj=>false);
